@@ -72,7 +72,12 @@ d-i preseed/late_command string \
         in-target apt-get update ; \
         in-target apt-get -y install kubelet kubeadm kubectl ; \
         in-target sed -i '/^docker/ s/$/antti/' /etc/group ; \
-        chroot /target sh -c "echo 'antti ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/antti && /bin/sh -c 'chmod 440 /etc/sudoers.d/antti'" ;
+        chroot /target sh -c "echo 'enp0s3: \\\4{enp0s3}' >> /etc/issue" ; \
+        chroot /target sh -c "echo 'antti ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/antti" ; \
+        chroot /target /bin/sh -c 'chmod 440 /etc/sudoers.d/antti' ; \
+        chroot /target /bin/sh -c 'mkdir /home/antti/.ssh' ; \
+        chroot /target /bin/sh -c "echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFwzCO3mDrd7oVXCVlTbsMqeVACzssqZCrxyGFi/Qt/4w+c/9Eg7Do7tAGmrR6B+7Y83eZzVZpft23dI6i7/s7mOrOw/LmE1CxO40nDHDfiEln5rDU8YjMPkPw9lDdFTw+xFPnzYuKB0n2f/LdKOLMeT5tFXOUX58S8fufbDSPWjg2DU6dHGeqzWHqCZuVM7TkRA/KXcF91BpLFsRJBDavGwqVmuzZWzBeCKNCNUICXs1AYQesI1HZjidRGUZ3XZD250PJkFgtz9UbCsZx8ul9E36nsTAxlHrI/488fgJykFKedGiLwFt28cYl13MFqTG3sk68q8tnBwSl5GMRO4FV' > /home/antti/.ssh/authorized_keys" ; \
+        chroot /target /bin/sh -c "chown -R antti:antti /home/antti/.ssh && chmod 0700 /home/antti/.ssh && chmod 0600 /home/antti/.ssh/authorized_keys" ;
 
 d-i passwd/user-fullname string Debian User
 d-i passwd/username string antti
