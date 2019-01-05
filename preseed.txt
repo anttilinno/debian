@@ -65,15 +65,14 @@ d-i grub-installer/only_debian boolean true
 d-i grub-installer/bootdev  string /dev/sda
 
 d-i preseed/late_command string \
-        in-target sed -i '/docker/s/^
+        in-target sed -i '/docker/s/^# *//' /etc/apt/sources.list ; \
         in-target apt-get update ; \
         in-target apt-get -y install docker-ce docker-compose ; \
-        in-target sed -i '/kubernetes/s/^
+        in-target sed -i '/kubernetes/s/^# *//' /etc/apt/sources.list ; \
         in-target apt-get update ; \
         in-target apt-get -y install kubelet kubeadm kubectl ; \
         in-target sed -i '/^docker/ s/$/antti/' /etc/group ; \
-        in-target echo 'antti ALL=(ALL) NOPASSWD: ALL' > /target/etc/sudoers.d/antti ; \
-        in-target chmod 440 /etc/sudoers.d/antti ;
+        chroot /target sh -c "echo 'antti ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/antti && /bin/sh -c 'chmod 440 /etc/sudoers.d/antti'" ;
 
 d-i passwd/user-fullname string Debian User
 d-i passwd/username string antti
