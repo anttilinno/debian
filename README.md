@@ -1,5 +1,5 @@
 # debian
-Debian related things
+Debian related things. Preseed file can be obtained from https://bit.ly/preseedly
 
 ## preseed.txt
 Debian stretch preseed file I found useful in VirtualBox to kickstart my K8s environment.
@@ -19,3 +19,4 @@ Debian stretch preseed file I found useful in VirtualBox to kickstart my K8s env
  - Install kubelet, kubeadm, kubectl
  - Add user antti to group docker
  - Create user antti with password *meh*
+ - Create passwordless sudo for user antti
